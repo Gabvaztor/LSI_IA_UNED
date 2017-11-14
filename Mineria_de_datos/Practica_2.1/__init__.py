@@ -1,0 +1,1 @@
+# Crear 100 instancias de datos para S={X1,X2,X3,X4,X5} con valores Booleanos
