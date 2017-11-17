@@ -22,9 +22,6 @@ X2 = [0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1]
 X3 = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
 X4 = [0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0]
 X5 = [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]
-# Y = X1 XOR X2 XOR X3 (Problema XOR con 3 dimensiones)
-# Se cumple la propiedad conmutativa.
-Y = np.logical_xor(X1,np.logical_xor(X2,X3))
 
 # X4 = X2 XOR X3
 #X4 = np.logical_xor(X2,X3)
@@ -36,8 +33,11 @@ def create_x_instances_to_list(number_of_instances=84, list_to_add=None):
     new_list = list(np.random.randint(2, size=number_of_instances))
     list_to_return = list_to_add + new_list
     # Necesario para que no sean valores numpy
-    x = [int(elem) for elem in list_to_return]
+    x = change_bool_to_int(list_to_return)
     return x
+
+def change_bool_to_int(list):
+    return [int(elem) for elem in list]
 
 def create_columns_per_list():
     """
@@ -62,23 +62,85 @@ X2 = create_x_instances_to_list(84,X2)
 X3 = create_x_instances_to_list(84,X3)
 X4 = create_x_instances_to_list(84,X4)
 X5 = create_x_instances_to_list(84,X5)
+# Y = X1 XOR X2 XOR X3 (Problema XOR con 3 dimensiones)
+# Se cumple la propiedad conmutativa.
+Y = list(np.logical_xor(X1,np.logical_xor(X2,X3)))
+Y = change_bool_to_int(Y)
+pt("Y", Y)
 # Unimos listas en columnas para weka
 data = create_columns_per_list()
 
-def find_relevants_information(data, y):
+
+
+def calculate_subsets_sx(array, possibilities):
+    s1, s2, s3, s4, s5 = [], [], [], [], []
+    p1_X1, p1_X2, p1_X3, p1_X4, p1_X5 = False
+    for string_feature, possibilities in possibilities.items():
+        for i in range(len(data)):
+            row = array[i]
+            if string_feature == 'x1':
+                s1.append(list(row[1:5]))
+                if p1_X1 is False:
+                    if row[0] == possibilities[0] or row[0] == possibilities[1]:
+                        p1_X1 = True
+            elif string_feature == 'x2':
+                s2.append(list(np.hstack([row[0], row[2:5]])))
+                if p1_X2 is False:
+                    if row[1] == possibilities[0] or row[1] == possibilities[1]:
+                        p1_X2 = True
+            elif string_feature == 'x3':
+                s3.append(list(np.hstack([row[0:2], row[3:5]])))
+                if p1_X3 is False:
+                    if row[2] == possibilities[0] or row[2] == possibilities[1]:
+                        p1_X3 = True
+                # pt(str(i + 1), sx)
+            elif string_feature == 'x4':
+                s4.append(list(np.hstack([row[0:3], row[4]])))
+                if p1_X4 is False:
+                    if row[3] == possibilities[0] or row[3] == possibilities[1]:
+                        p1_X4 = True
+            elif string_feature == 'x5':
+                s5.append(list(row[0:4]))
+                if p1_X5 is False:
+                    if row[4] == possibilities[0] or row[4] == possibilities[1]:
+                        p1_X5 = True
+    return s1, s2, s3, s4, s5, p1_X1, p1_X2, p1_X3, p1_X4, p1_X5
+
+
+def find_relevants_information(data, y, possibilities):
     """
     Encuentra los datos que son relevantes fuertes, débiles o irrelevantes.
     """
     # p1 = p(Xi=xi,Si=si)>0
     # p2 = p(Y=y | Xi=xi, Si=si)
     # p3 = p(Y=y | Si=si)
+
+    irrelevant = []
+    strong_relevant = []
+    weak_relevant = []
     pt(np.asarray(data).shape)
     pt(len(data[0]))
-    array = np.asarray(data)
-    for i in range(len(data)):
-        row = array[i]
+    array_data = np.asarray(data)
+    # All subsets sx
+    s1, s2, s3, s4, s5, p1_X1, p1_X2, p1_X3, p1_X4, p1_X5 = calculate_subsets_sx(array_data, possibilities)
+    list_ = []
+    for string_feature, possibilities in possibilities.items():
+        for i in range(len(data)):
+            Y = y[i]
+            if string_feature == 'x1' and p1_X1:
+                pass
+            elif string_feature == 'x2' and p1_X2:
+                pass
+            elif string_feature == 'x3' and p1_X3:
+                pass
+                # pt(str(i + 1), sx)
+            elif string_feature == 'x4' and p1_X4:
+                pass
+            elif string_feature == 'x5' and p1_X5:
+                pass
 
+possibilities = {'x1':[0,1], 'x2':[0,1], 'x3':[0,1], 'x4':[0,1], 'x5':[0,1]}
 
-find_relevants_information(data=data, y=Y)
+find_relevants_information(data=data, y=Y, possibilities=possibilities)
 # Creamos archivo arff
 #convert_lists_to_arff(create_columns_per_list())
