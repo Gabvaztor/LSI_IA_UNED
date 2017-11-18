@@ -72,42 +72,49 @@ data = create_columns_per_list()
 
 
 
-def calculate_subsets_sx(array, possibilities):
+def calculate_subsets_sx(array, possibilities, Y):
     s1, s2, s3, s4, s5 = [], [], [], [], []
+    xs1, xs2, xs3, xs4, xs5 = [], [], [], [], []
     p1_X1, p1_X2, p1_X3, p1_X4, p1_X5 = False
     for string_feature, possibilities in possibilities.items():
         for i in range(len(data)):
             row = array[i]
+            y = Y[i]
             if string_feature == 'x1':
+                xs1.append(list(row).append(y))
                 s1.append(list(row[1:5]))
                 if p1_X1 is False:
                     if row[0] == possibilities[0] or row[0] == possibilities[1]:
                         p1_X1 = True
             elif string_feature == 'x2':
+                xs2.append(list(row).append(y))
                 s2.append(list(np.hstack([row[0], row[2:5]])))
                 if p1_X2 is False:
                     if row[1] == possibilities[0] or row[1] == possibilities[1]:
                         p1_X2 = True
             elif string_feature == 'x3':
+                xs3.append(list(row).append(y))
                 s3.append(list(np.hstack([row[0:2], row[3:5]])))
                 if p1_X3 is False:
                     if row[2] == possibilities[0] or row[2] == possibilities[1]:
                         p1_X3 = True
                 # pt(str(i + 1), sx)
             elif string_feature == 'x4':
+                xs4.append(list(row).append(y))
                 s4.append(list(np.hstack([row[0:3], row[4]])))
                 if p1_X4 is False:
                     if row[3] == possibilities[0] or row[3] == possibilities[1]:
                         p1_X4 = True
             elif string_feature == 'x5':
+                xs5.append(list(row).append(y))
                 s5.append(list(row[0:4]))
                 if p1_X5 is False:
                     if row[4] == possibilities[0] or row[4] == possibilities[1]:
                         p1_X5 = True
-    return s1, s2, s3, s4, s5, p1_X1, p1_X2, p1_X3, p1_X4, p1_X5
+    return xs1, xs2, xs3, xs4, xs5, s1, s2, s3, s4, s5, p1_X1, p1_X2, p1_X3, p1_X4, p1_X5
+strong_relevant(y,x,si,)
 
-
-def find_relevants_information(data, y, possibilities):
+def find_relevants_information(data, Y, possibilities):
     """
     Encuentra los datos que son relevantes fuertes, débiles o irrelevantes.
     """
@@ -122,11 +129,13 @@ def find_relevants_information(data, y, possibilities):
     pt(len(data[0]))
     array_data = np.asarray(data)
     # All subsets sx
-    s1, s2, s3, s4, s5, p1_X1, p1_X2, p1_X3, p1_X4, p1_X5 = calculate_subsets_sx(array_data, possibilities)
-    list_ = []
+    xs1, xs2, xs3, xs4, xs5, s1, s2, s3, s4, s5, p1_X1, p1_X2, p1_X3, p1_X4, p1_X5 = \
+        calculate_subsets_sx(array_data, possibilities,Y)
+    # Count numbers of times apper
     for string_feature, possibilities in possibilities.items():
         for i in range(len(data)):
-            Y = y[i]
+            row = array_data[i]
+            y = Y[i]
             if string_feature == 'x1' and p1_X1:
                 pass
             elif string_feature == 'x2' and p1_X2:
