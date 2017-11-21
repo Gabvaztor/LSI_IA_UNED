@@ -75,14 +75,17 @@ data = create_columns_per_list()
 def calculate_subsets_sx(array, possibilities, Y):
     s1, s2, s3, s4, s5 = [], [], [], [], []
     all_rows = []
-    p1_X1, p1_X2, p1_X3, p1_X4, p1_X5 = False
+    p1_X1, p1_X2, p1_X3, p1_X4, p1_X5 = False, False , False, False, False
     add_to_all_rows = True
     for string_feature, possibilities in possibilities.items():
         for i in range(len(data)):
             row = array[i]
             y = Y[i]
             if add_to_all_rows:
-                all_rows.append(list(row).append(y))
+                to_add = list(row)+[y]
+                all_rows.append(to_add)
+            if len(all_rows) == 100:
+                add_to_all_rows = False
             if string_feature == 'x1':
                 s1.append(list(row[1:5]))
                 if p1_X1 is False:
@@ -113,6 +116,42 @@ def calculate_subsets_sx(array, possibilities, Y):
     return all_rows, s1, s2, s3, s4, s5, p1_X1, p1_X2, p1_X3, p1_X4, p1_X5
 
 
+def calculate_count_p2(y_to_analize, x1, data_set):
+    pass
+
+
+def calculate_strong_relevants(data_set, y_to_analize, possibilities_of_xi):
+    # p2 = p(Y=y | Xi=xi, Si=si)
+    # p3 = p(Y=y | Si=si)
+    count_p2 = 0
+    count_p3 = 0
+    p2 = None
+    p3 = None
+    strong_relevant = []
+    for string_feature, possibilities in possibilities_of_xi.items():
+        for possibility in possibilities:
+            if string_feature == 'x1':
+                x1 = possibility
+                all_rows_with_x1_possibility = find_all_rows_with_x1_possibility(0,)
+                count_p2 = calculate_count_p2(y_to_analize,x1,data_set)
+            elif string_feature == 'x2':
+                pass
+            elif string_feature == 'x3':
+                pass
+            elif string_feature == 'x4':
+                pass
+            elif string_feature == 'x5':
+                pass
+
+
+def create_dict_p2():
+    dict_p2 = {}
+    possibilities = [[0,0],[0,1],[1,0],[1,1]]
+    for x, y in possibilities:
+        dict_p2[x,y] = []
+    pt("dict_p2",dict_p2)
+    return dict_p2
+
 
 def find_relevants_information(data, Y, possibilities):
     """
@@ -130,26 +169,46 @@ def find_relevants_information(data, Y, possibilities):
     array_data = np.asarray(data)
     # All subsets sx
     all_rows, s1, s2, s3, s4, s5, p1_X1, p1_X2, p1_X3, p1_X4, p1_X5 = calculate_subsets_sx(array_data, possibilities,Y)
+    y=[0,1]
+    #calculate_strong_relevants(all_rows,y,possibilities)
+
     # Todo si para débil debe coger subconjuntos
     # Count numbers of times apper
+    x1_ = True
+    x2_ = True
+    x3_ = True
+    x4_ = True
+    x5_ = True
+    dict_p2 = create_dict_p2() # {[x,y]:[[0000][0001]...]}
     for string_feature, possibilities in possibilities.items():
-        for i in range(len(data)):
-            row = array_data[i]
-            y = Y[i]
-            if string_feature == 'x1' and p1_X1:
+        row_count = 0
+        for row in all_rows:
+            if string_feature == 'x1' and p1_X1 and x1_:
+                y_ = row.pop()
+                x1 = s1[row_count][0]
+                dict_get = dict_p2.get((x1,y_))
+                pt("dic", dict_get)
+                dict_get2 = dict_get.append(s1[row_count])
+                pt("s", s1[row_count])
+                asf
+                # TODO Finish this
+                dict_p2[x1,y_] = to_append
+                if row_count == 3:
+                    pt("update dict", dict_p2)
+                    asd
+                row_count += 1
+            elif string_feature == 'x2' and p1_X2 and x2_:
                 pass
-            elif string_feature == 'x2' and p1_X2:
-                pass
-            elif string_feature == 'x3' and p1_X3:
+            elif string_feature == 'x3' and p1_X3 and x3_:
                 pass
                 # pt(str(i + 1), sx)
-            elif string_feature == 'x4' and p1_X4:
+            elif string_feature == 'x4' and p1_X4 and x4_:
                 pass
-            elif string_feature == 'x5' and p1_X5:
+            elif string_feature == 'x5' and p1_X5 and x5_:
                 pass
 
 possibilities = {'x1':[0,1], 'x2':[0,1], 'x3':[0,1], 'x4':[0,1], 'x5':[0,1]}
-y = [0,1]
+
 find_relevants_information(data=data, Y=Y, possibilities=possibilities)
 # Creamos archivo arff
 #convert_lists_to_arff(create_columns_per_list())
