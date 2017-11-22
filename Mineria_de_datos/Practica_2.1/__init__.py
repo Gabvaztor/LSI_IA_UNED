@@ -220,18 +220,13 @@ def find_relevants_information(data, Y, possibilities):
     pt("dict_p2_x4", dict_p2_x4)
     pt("dict_p2_x5", dict_p2_x5)
 
+    # ----------------------------------------------------
+    # ----------------------------------------------------
+    # ----------------------------------------------------
+    # TO calculate p1 and p2 probabilities
     # p1 = p(Xi=xi,Si=si)>0
     # p2 = p(Y=y | Xi=xi, Si=si)
-    p2x1 = 0.
-    p2x2 = 0.
-    p2x3 = 0.
-    p2x4 = 0.
-    p2x5 = 0.
-    p3x1 = 0.
-    p3x2 = 0.
-    p3x3 = 0.
-    p3x4 = 0.
-    p3x5 = 0.
+    p2x1, p2x2, p2x3, p2x4, p2x5 = 0., 0., 0. ,0. ,0.
     for string_feature, possibility in possibilities.items():
         y_counts = 0
         for i, row in enumerate(all_rows):
@@ -321,9 +316,17 @@ def find_relevants_information(data, Y, possibilities):
     pt("p2x3",p2x3)
     pt("p2x4",p2x4)
     pt("p2x5",p2x5)
+    #------------------------------------------------------
+    # ----------------------------------------------------
+    # ----------------------------------------------------
+
+    # p3 = p(Y=y | Si=si)
+    p3x1, p3x2 , p3x3, p3x4, p3x5 = 0, 0, 0, 0, 0
+    # TODO p3
+
+
     # Dataset, column, y, x
 
-    x1_strong_relevant = calculate_strong_relevant(dict_p2_x1)
 
 def calculate_strong_relevant(dictionary):
     """
