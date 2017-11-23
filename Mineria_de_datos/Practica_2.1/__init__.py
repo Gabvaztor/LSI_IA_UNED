@@ -214,20 +214,24 @@ def find_relevants_information(data, Y, possibilities):
                     dict_get.append(list(row[0:4]))
                     dict_p2_x5[x5, y_] = dict_get
                 row_count += 1
+    """
     pt("dict_p2_x1", dict_p2_x1)
     pt("dict_p2_x2", dict_p2_x2)
     pt("dict_p2_x3", dict_p2_x3)
     pt("dict_p2_x4", dict_p2_x4)
     pt("dict_p2_x5", dict_p2_x5)
-
+    """
     # ----------------------------------------------------
     # ----------------------------------------------------
     # ----------------------------------------------------
     # TO calculate p1 and p2 probabilities
     # p1 = p(Xi=xi,Si=si)>0
     # p3 = p(Y=y | Si=si)
-    p2x1, p2x2, p2x3, p2x4, p2x5 = 0., 0., 0. ,0. ,0.
-    p3x1y0, p3x1y1, p3x2y0, p3x2y1, p3x3y0, p3x3y1, p3x4y0, p3x4y1, p3x5y0, p3x5y1 = -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+    p3x1y0, p3x1y1,\
+    p3x2y0, p3x2y1,\
+    p3x3y0, p3x3y1,\
+    p3x4y0, p3x4y1,\
+    p3x5y0, p3x5y1 = -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
     y_x1_values = []
     y_x2_values = []
     y_x3_values = []
@@ -362,11 +366,7 @@ def find_relevants_information(data, Y, possibilities):
                         p3x5y0 = 0
                     elif y_ == 1:
                         p3x5y1 = 0
-    pt("p2x1",p2x1)
-    pt("p2x2",p2x2)
-    pt("p2x3",p2x3)
-    pt("p2x4",p2x4)
-    pt("p2x5",p2x5)
+
     #------------------------------------------------------
     # ----------------------------------------------------
     # ----------------------------------------------------
@@ -380,185 +380,172 @@ def find_relevants_information(data, Y, possibilities):
     p2x4_0y_0, p2x4_1y_0, p2x4_0y_1, p2x4_1y_1 = 0, 0, 0 ,0
     p2x5_0y_0, p2x5_1y_0, p2x5_0y_1, p2x5_1y_1 = 0, 0, 0 ,0
 
-    y_x1_values = []
-    y_x2_values = []
-    y_x3_values = []
-    y_x4_values = []
-    y_x5_values = []
-    x_x1_values = []
-    x_x2_values = []
-    x_x3_values = []
-    x_x4_values = []
-    x_x5_values = []
+    x1_y_values = []
+    x2_y_values = []
+    x3_y_values = []
+    x4_y_values = []
+    x5_y_values = []
     for string_feature, possibility in possibilities.items():
         xy_counts = 0
         x_si_counts = 0
         for i, row in enumerate(all_rows):
             y_ = row[-1]
+            x = row[0]
+            to_check = [x,y_]
             # X1
-            if string_feature == 'x1' and y_ not in y_x1_values:
-                y_x1_values.append(y_)
-                x = row[0]
-                if x not in x_x1_values:
-                    x_x1_values.append(x)
-                    si = s1[i]
-                    number_of_times = s1.count(si)
-                    if number_of_times > 0:
-                        indexs_x = [] # Contiene todos los indices donde está el xi condicional
-                        for index_x, row_x in enumerate(all_rows):
-                            if row_x[0] == x:
-                                indexs_x.append(index_x)
-                        sys = []
-                        for index in indexs_x:
-                            sys.append(sy1[index])
-                        for siy in sys:
-                            y_s = siy[-1]
-                            s_i = siy[0:4]
-                            if y_s == y_ and s_i == si:
-                                xy_counts += 1
-                            if s_i == si:
-                                x_si_counts += 1
-                        if xy_counts > 0:
-                            if x == 0 and y_ == 0:
-                                p2x1_0y_0 = xy_counts/x_si_counts
-                            elif x == 0 and  y_ == 1:
-                                p2x1_0y_1 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 0 :
-                                p2x1_1y_0 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 1:
-                                p2x1_1y_1 = xy_counts / x_si_counts
+            if string_feature == 'x1' and to_check not in x1_y_values:
+                x1_y_values.append(to_check)
+                si = s1[i]
+                number_of_times = s1.count(si)
+                if number_of_times > 0:
+                    indexs_x = [] # Contiene todos los indices donde está el xi condicional
+                    for index_x, row_x in enumerate(all_rows):
+                        if row_x[0] == x:
+                            indexs_x.append(index_x)
+                    sys = []
+                    for index in indexs_x:
+                        sys.append(sy1[index])
+                    for siy in sys:
+                        y_s = siy[-1]
+                        s_i = siy[0:4]
+                        if y_s == y_ and s_i == si:
+                            xy_counts += 1
+                        if s_i == si:
+                            x_si_counts += 1
+                    if xy_counts > 0:
+                        if x == 0 and y_ == 0:
+                            p2x1_0y_0 = xy_counts/x_si_counts
+                        elif x == 0 and  y_ == 1:
+                            p2x1_0y_1 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 0 :
+                            p2x1_1y_0 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 1:
+                            p2x1_1y_1 = xy_counts / x_si_counts
             # X2
-            elif string_feature == 'x2' and y_ not in y_x2_values:
-                y_x2_values.append(y_)
-                x = row[0]
-                if x not in x_x2_values:
-                    x_x2_values.append(x)
-                    si = s2[i]
-                    number_of_times = s2.count(si)
-                    if number_of_times > 0:
-                        indexs_x = [] # Contiene todos los indices donde está el xi condicional
-                        for index_x, row_x in enumerate(all_rows):
-                            if row_x[0] == x:
-                                indexs_x.append(index_x)
-                        sys = []
-                        for index in indexs_x:
-                            sys.append(sy2[index])
-                        for siy in sys:
-                            y_s = siy[-1]
-                            s_i = siy[0:4]
-                            if y_s == y_ and s_i == si:
-                                xy_counts += 1
-                            if s_i == si:
-                                x_si_counts += 1
-                        if xy_counts > 0:
-                            if x == 0 and y_ == 0:
-                                p2x2_0y_0 = xy_counts/x_si_counts
-                            elif x == 0 and  y_ == 1:
-                                p2x2_0y_1 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 0 :
-                                p2x2_1y_0 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 1:
-                                p2x2_1y_1 = xy_counts / x_si_counts
+            elif string_feature == 'x2' and to_check not in x2_y_values:
+                x2_y_values.append(to_check)
+                si = s2[i]
+                number_of_times = s2.count(si)
+                if number_of_times > 0:
+                    indexs_x = [] # Contiene todos los indices donde está el xi condicional
+                    for index_x, row_x in enumerate(all_rows):
+                        if row_x[0] == x:
+                            indexs_x.append(index_x)
+                    sys = []
+                    for index in indexs_x:
+                        sys.append(sy2[index])
+                    for siy in sys:
+                        y_s = siy[-1]
+                        s_i = siy[0:4]
+                        if y_s == y_ and s_i == si:
+                            xy_counts += 1
+                        if s_i == si:
+                            x_si_counts += 1
+                    if xy_counts > 0:
+                        if x == 0 and y_ == 0:
+                            p2x2_0y_0 = xy_counts/x_si_counts
+                        elif x == 0 and  y_ == 1:
+                            p2x2_0y_1 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 0 :
+                            p2x2_1y_0 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 1:
+                            p2x2_1y_1 = xy_counts / x_si_counts
             # X3
-            elif string_feature == 'x3' and y_ not in y_x3_values:
-                y_x3_values.append(y_)
-                x = row[0]
-                if x not in x_x3_values:
-                    x_x3_values.append(x)
-                    si = s3[i]
-                    number_of_times = s3.count(si)
-                    if number_of_times > 0:
-                        indexs_x = [] # Contiene todos los indices donde está el xi condicional
-                        for index_x, row_x in enumerate(all_rows):
-                            if row_x[0] == x:
-                                indexs_x.append(index_x)
-                        sys = []
-                        for index in indexs_x:
-                            sys.append(sy3[index])
-                        for siy in sys:
-                            y_s = siy[-1]
-                            s_i = siy[0:4]
-                            if y_s == y_ and s_i == si:
-                                xy_counts += 1
-                            if s_i == si:
-                                x_si_counts += 1
-                        if xy_counts > 0:
-                            if x == 0 and y_ == 0:
-                                p2x3_0y_0 = xy_counts/x_si_counts
-                            elif x == 0 and  y_ == 1:
-                                p2x3_0y_1 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 0 :
-                                p2x3_1y_0 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 1:
-                                p2x3_1y_1 = xy_counts / x_si_counts
+            elif string_feature == 'x3' and to_check not in x3_y_values:
+                x3_y_values.append(to_check)
+                si = s3[i]
+                number_of_times = s3.count(si)
+                if number_of_times > 0:
+                    indexs_x = [] # Contiene todos los indices donde está el xi condicional
+                    for index_x, row_x in enumerate(all_rows):
+                        if row_x[0] == x:
+                            indexs_x.append(index_x)
+                    sys = []
+                    for index in indexs_x:
+                        sys.append(sy3[index])
+                    for siy in sys:
+                        y_s = siy[-1]
+                        s_i = siy[0:4]
+                        if y_s == y_ and s_i == si:
+                            xy_counts += 1
+                        if s_i == si:
+                            x_si_counts += 1
+                    if xy_counts > 0:
+                        if x == 0 and y_ == 0:
+                            p2x3_0y_0 = xy_counts/x_si_counts
+                        elif x == 0 and  y_ == 1:
+                            p2x3_0y_1 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 0 :
+                            p2x3_1y_0 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 1:
+                            p2x3_1y_1 = xy_counts / x_si_counts
             # X4
-            elif string_feature == 'x4' and y_ not in y_x4_values:
-                y_x4_values.append(y_)
-                x = row[0]
-                if x not in x_x4_values:
-                    x_x4_values.append(x)
-                    si = s4[i]
-                    number_of_times = s4.count(si)
-                    if number_of_times > 0:
-                        indexs_x = [] # Contiene todos los indices donde está el xi condicional
-                        for index_x, row_x in enumerate(all_rows):
-                            if row_x[0] == x:
-                                indexs_x.append(index_x)
-                        sys = []
-                        for index in indexs_x:
-                            sys.append(sy4[index])
-                        for siy in sys:
-                            y_s = siy[-1]
-                            s_i = siy[0:4]
-                            if y_s == y_ and s_i == si:
-                                xy_counts += 1
-                            if s_i == si:
-                                x_si_counts += 1
-                        if xy_counts > 0:
-                            if x == 0 and y_ == 0:
-                                p2x4_0y_0 = xy_counts/x_si_counts
-                            elif x == 0 and  y_ == 1:
-                                p2x4_0y_1 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 0 :
-                                p2x4_1y_0 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 1:
-                                p2x4_1y_1 = xy_counts / x_si_counts
+            elif string_feature == 'x4' and to_check not in x4_y_values:
+                x4_y_values.append(to_check)
+                si = s4[i]
+                number_of_times = s4.count(si)
+                if number_of_times > 0:
+                    indexs_x = [] # Contiene todos los indices donde está el xi condicional
+                    for index_x, row_x in enumerate(all_rows):
+                        if row_x[0] == x:
+                            indexs_x.append(index_x)
+                    sys = []
+                    for index in indexs_x:
+                        sys.append(sy4[index])
+                    for siy in sys:
+                        y_s = siy[-1]
+                        s_i = siy[0:4]
+                        if y_s == y_ and s_i == si:
+                            xy_counts += 1
+                        if s_i == si:
+                            x_si_counts += 1
+                    if xy_counts > 0:
+                        if x == 0 and y_ == 0:
+                            p2x4_0y_0 = xy_counts/x_si_counts
+                        elif x == 0 and  y_ == 1:
+                            p2x4_0y_1 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 0 :
+                            p2x4_1y_0 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 1:
+                            p2x4_1y_1 = xy_counts / x_si_counts
             # X5
-            elif string_feature == 'x5' and y_ not in y_x5_values:
-                y_x5_values.append(y_)
-                x = row[0]
-                if x not in x_x5_values:
-                    x_x5_values.append(x)
-                    si = s5[i]
-                    number_of_times = s5.count(si)
-                    if number_of_times > 0:
-                        indexs_x = [] # Contiene todos los indices donde está el xi condicional
-                        for index_x, row_x in enumerate(all_rows):
-                            if row_x[0] == x:
-                                indexs_x.append(index_x)
-                        sys = []
-                        for index in indexs_x:
-                            sys.append(sy5[index])
-                        for siy in sys:
-                            y_s = siy[-1]
-                            s_i = siy[0:4]
-                            if y_s == y_ and s_i == si:
-                                xy_counts += 1
-                            if s_i == si:
-                                x_si_counts += 1
-                        if xy_counts > 0:
-                            if x == 0 and y_ == 0:
-                                p2x5_0y_0 = xy_counts/x_si_counts
-                            elif x == 0 and  y_ == 1:
-                                p2x5_0y_1 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 0 :
-                                p2x5_1y_0 = xy_counts / x_si_counts
-                            elif x == 1 and y_ == 1:
-                                p2x5_1y_1 = xy_counts / x_si_counts
-    # TODO p3
+            elif string_feature == 'x5' and to_check not in x5_y_values:
+                x5_y_values.append(to_check)
+                si = s5[i]
+                number_of_times = s5.count(si)
+                if number_of_times > 0:
+                    indexs_x = [] # Contiene todos los indices donde está el xi condicional
+                    for index_x, row_x in enumerate(all_rows):
+                        if row_x[0] == x:
+                            indexs_x.append(index_x)
+                    sys = []
+                    for index in indexs_x:
+                        sys.append(sy5[index])
+                    for siy in sys:
+                        y_s = siy[-1]
+                        s_i = siy[0:4]
+                        if y_s == y_ and s_i == si:
+                            xy_counts += 1
+                        if s_i == si:
+                            x_si_counts += 1
+                    if xy_counts > 0:
+                        if x == 0 and y_ == 0:
+                            p2x5_0y_0 = xy_counts/x_si_counts
+                        elif x == 0 and  y_ == 1:
+                            p2x5_0y_1 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 0 :
+                            p2x5_1y_0 = xy_counts / x_si_counts
+                        elif x == 1 and y_ == 1:
+                            p2x5_1y_1 = xy_counts / x_si_counts
 
-    pt("p2x1_0y_0, p2x1_1y_0, p2x1_0y_1, p2x1_1y_1", [p2x1_0y_0, p2x1_1y_0, p2x1_0y_1, p2x1_1y_1])
-    pt("p2x1_0y_0, p2x1_1y_0, p2x1_0y_1, p2x1_1y_1", [p2x2_0y_0, p2x2_1y_0, p2x2_0y_1, p2x2_1y_1])
+    pt("p3x1y0, p3x1y1, p3x2y0, p3x2y1, p3x3y0, p3x3y1, p3x4y0, p3x4y1, p3x5y0, p3x5y1",
+       [p3x1y0, p3x1y1, p3x2y0, p3x2y1, p3x3y0, p3x3y1, p3x4y0, p3x4y1, p3x5y0, p3x5y1])
+
+    pt("p2x1", [p2x1_0y_0, p2x1_1y_0, p2x1_0y_1, p2x1_1y_1])
+    pt("p2x2", [p2x2_0y_0, p2x2_1y_0, p2x2_0y_1, p2x2_1y_1])
+    pt("p2x3", [p2x3_0y_0, p2x3_1y_0, p2x3_0y_1, p2x3_1y_1])
+    pt("p2x4", [p2x4_0y_0, p2x4_1y_0, p2x4_0y_1, p2x4_1y_1])
+    pt("p2x5", [p2x5_0y_0, p2x5_1y_0, p2x5_0y_1, p2x5_1y_1])
 
     # Dataset, column, y, x
 
