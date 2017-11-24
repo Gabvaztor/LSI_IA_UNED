@@ -722,4 +722,4 @@ dataset_dictionary = create_dict_from_data(X1,X2,X3,X4,X5,Y)
 find_relevants_information_pandas(dataset=dataset_dictionary)
 
 # Creamos archivo arff
-convert_lists_to_arff(create_columns_per_list())
+#convert_lists_to_arff(create_columns_per_list())
