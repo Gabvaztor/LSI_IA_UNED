@@ -14,15 +14,23 @@ empleando todos los valores por defecto, salvo el número máximo de padres que 
 import numpy as np
 import arff
 from UtilsFunctions import *
+import pandas as pd
 # Crear 100 instancias de datos para S={X1,X2,X3,X4,X5} con valores Booleanos
 # Existen 16 posibles instancias si extendemos el problema XOR a tres dimensiones.
 # Trabajamos con el siguiente conjunto:
-X1 = [0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1]
-X2 = [0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1]
-X3 = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
-X4 = [0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0]
-X5 = [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]
-
+#X1 = [0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1]
+#X2 = [0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1]
+#X3 = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
+#X4 = [0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0]
+#X5 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+X1 = []
+X2 = []
+X3 = []
+X4 = []
+X5 = []
+strong = 3  # If a Xi is strong
+weak = 2  # If a Xi is weak
+irrelevant = 1  # If a Xi is irrelevant
 # X4 = X2 XOR X3
 #X4 = np.logical_xor(X2,X3)
 # Vamos a trabajar de tal forma que X1 sea fuertemente relevante, es decir, que si se elimina esa característica
@@ -43,7 +51,7 @@ def create_columns_per_list():
     """
     Unimos los datos de  
     """
-    data = list(zip(X1, X2, X3, X4, X5))
+    data = list(zip(X1, X2, X3, X4, X5, Y))
     return data
 
 def convert_lists_to_arff(lists):
@@ -52,26 +60,9 @@ def convert_lists_to_arff(lists):
     """
     x = arff.dumps(lists,
                    relation="arff",
-                   names=['X1','X2','X3','X4','X5'])
+                   names=['X1','X2','X3','X4','X5','Y'])
     pt(x)
-    #write_json_to_pathfile(x,"D:\\result.arff")
-
-# Como se nos pide 100 instancias (con 0 y 1), creamos las 84 restantes con los siguientes métodos:
-
-X1 = create_x_instances_to_list(84,X1)
-X2 = create_x_instances_to_list(84,X2)
-X3 = create_x_instances_to_list(84,X3)
-X4 = create_x_instances_to_list(84,X4)
-X5 = create_x_instances_to_list(84,X5)
-
-# Y = X1 XOR X2 XOR X3 (Problema XOR con 3 dimensiones)
-# Se cumple la propiedad conmutativa.
-Y = change_bool_to_int(list(np.logical_xor(X1,np.logical_xor(X2,X3))))
-pt("Y", Y)
-# Unimos listas en columnas para weka
-data = create_columns_per_list()
-
-
+    write_json_to_pathfile(x,"D:\\result.arff")
 
 def calculate_subsets_sx(array, possibilities, Y):
     s1, s2, s3, s4, s5 = [], [], [], [], []
@@ -120,7 +111,6 @@ def calculate_subsets_sx(array, possibilities, Y):
                     if row[4] == possibilities[0] or row[4] == possibilities[1]:
                         p1_X5 = True
     return all_rows, s1, s2, s3, s4, s5, sy1, sy2, sy3, sy4, sy5
-
 
 def create_dict_p2():
     dict_p2 = {}
@@ -244,8 +234,10 @@ def find_relevants_information(data, Y, possibilities):
             # X1
             if string_feature == 'x1' and y_ not in y_x1_values:
                 y_x1_values.append(y_)
-                si = row[1:5]
+                si = s1[i]
                 number_of_times = s1.count(si)
+                pt("si", si)
+                pt("number_of_times", number_of_times)
                 if number_of_times > 0:
                     # delvolver los indices que coinciden con el count
                     indexs = []
@@ -269,7 +261,8 @@ def find_relevants_information(data, Y, possibilities):
             # X2
             elif string_feature == 'x2' and y_ not in y_x2_values:
                 y_x2_values.append(y_)
-                si = list(np.hstack([row[0], row[2:5]]))
+                #si = list(np.hstack([row[0], row[2:5]]))
+                si = s2[i]
                 number_of_times = s2.count(si)
                 if number_of_times > 0:
                     # delvolver los indices que coinciden con el count
@@ -294,7 +287,8 @@ def find_relevants_information(data, Y, possibilities):
             # X3
             elif string_feature == 'x3' and y_ not in y_x3_values:
                 y_x3_values.append(y_)
-                si = list(np.hstack([row[0:2], row[3:5]]))
+                #si = list(np.hstack([row[0:2], row[3:5]]))
+                si = s3[i]
                 number_of_times = s3.count(si)
                 if number_of_times > 0:
                     # delvolver los indices que coinciden con el count
@@ -319,7 +313,8 @@ def find_relevants_information(data, Y, possibilities):
             # X4
             elif string_feature == 'x4' and y_ not in y_x4_values:
                 y_x4_values.append(y_)
-                si = list(np.hstack([row[0:2], row[3:5]]))
+                #si = list(np.hstack([row[0:2], row[3:5]]))
+                si = s4[i]
                 number_of_times = s4.count(si)
                 if number_of_times > 0:
                     # delvolver los indices que coinciden con el count
@@ -344,7 +339,8 @@ def find_relevants_information(data, Y, possibilities):
             # X5
             elif string_feature == 'x5' and y_ not in y_x5_values:
                 y_x5_values.append(y_)
-                si = list(row[0:4])
+                #si = list(row[0:4])
+                si = s5[i]
                 number_of_times = s5.count(si)
                 if number_of_times > 0:
                     # delvolver los indices que coinciden con el count
@@ -547,11 +543,183 @@ def find_relevants_information(data, Y, possibilities):
     pt("p2x4", [p2x4_0y_0, p2x4_1y_0, p2x4_0y_1, p2x4_1y_1])
     pt("p2x5", [p2x5_0y_0, p2x5_1y_0, p2x5_0y_1, p2x5_1y_1])
 
+def create_dict_from_data(X1, X2, X3, X4, X5, Y):
+    dictionary = {}
+    dictionary['X1'] = X1
+    dictionary['X2'] = X2
+    dictionary['X3'] = X3
+    dictionary['X4'] = X4
+    dictionary['X5'] = X5
+    dictionary['Y'] = Y
+    return dictionary
+
+
+def is_strong(data, Xi,Y, y, x, Si,index):
+    #pt("data",data)
+    strong = False
+    p2 = None
+    p3 = None
+    counts_y_xi = 0
+    counts_y = 0
+    counts_xi = 0
+    counts_si = 1
+    indexs = [index]
+    for i, si in data.iterrows(): # Contamos las si que son iguales al Si de entrada sin tener en cuenta el de entrada
+        if index != i: # Si no es el mismo si que estamos calculando
+            if list(Si) == list(si):
+                counts_si += 1
+                indexs.append(i)
+    for j in indexs:  # para todos los indices de todos los si que son iguales, contamos todos los xi que coinciden con el xi de entrada
+        if x == Xi[j]:
+            counts_xi +=1
+    p1 = counts_xi/ Y.size #p1 = p(Xi=xi, Si=si)  Si existe para si y xi
+    if p1 > 0:
+        for e in indexs:
+            if Y[e] == y and x == Xi[e]:
+                counts_y_xi += 1
+        p2 = counts_y_xi / counts_xi  # Número de veces que y es condicional a xi y a si entre el número de veces que Si=si y Xi=xi
+        for r in indexs:
+            if Y[r] == y:
+                counts_y += 1
+        p3 = counts_y/ len(indexs)
+    if p2 is not None and p3 is not None:
+        if p2 != p3:
+            strong = True
+    return strong
+
+
+def calculate_strong_relevant(data, columns, x_y_possibilities):
+    """
+    """
+    # p1 = p(Xi=xi,Si=si)>0 para all xi
+    # p2 = p(Y=y | Xi=xi, Si=si)
+    # p3 = p(Y=y | Si=si)
+    Y = data.pop("Y")
+    strong_relevant = []
+    for column in columns:
+        Xi = data.pop(column)
+        change_column = False
+        for x, y in x_y_possibilities:
+            if change_column is False:
+                for index, si in data.iterrows():
+                    strong = is_strong(data,Xi,Y,y,x,si,index)
+                    if strong:
+                        pt(column + " is Strong")
+                        strong_relevant.append(column)
+                        change_column = True
+                        break
+            else:
+                break
+    pt("strong_relevant",strong_relevant)
+    return strong_relevant
+
+
+def is_weak(data, Xi, Y, y, x, Si, index):
+    weak = False
+    p2 = None
+    p3 = None
+    counts_y_xi = 0
+    counts_y = 0
+    counts_xi = 0
+    counts_si = 1
+    indexs = [index]
+    for i, si in data.iterrows():  # Contamos las si que son iguales al Si de entrada sin tener en cuenta el de entrada
+        if index != i:  # Si no es el mismo si que estamos calculando
+            if list(Si) == list(si):
+                counts_si += 1
+                indexs.append(i)
+    for j in indexs:  # para todos los indices de todos los si que son iguales, contamos todos los xi que coinciden con el xi de entrada
+        if x == Xi[j]:
+            counts_xi += 1
+    p1 = counts_xi / Y.size  # p1 = p(Xi=xi, Si=si)  Si existe para si y xi
+    if p1 > 0:
+        for e in indexs:
+            if Y[e] == y and x == Xi[e]:
+                counts_y_xi += 1
+        p2 = counts_y_xi / counts_xi  # Número de veces que y es condicional a xi y a si entre el número de veces que Si=si y Xi=xi
+        for r in indexs:
+            if Y[r] == y:
+                counts_y += 1
+        p3 = counts_y / len(indexs)
+    if p2 is not None and p3 is not None:
+        if p2 != p3:
+            weak = True
+    return weak
+
+
+def calcultate_subsets_si(si):
+    from itertools import chain, combinations
+    x = list(set(chain.from_iterable(combinations(si, n) for n in range(len(si) + 1))))
+    to_return = []
+    for i, element in enumerate(x):
+        if not element:
+            del x[i]
+    for element in x:
+        to_return.append(list(element))
+    return to_return
+
+
+def calculate_weak_relevant(data, columns, x_y_possibilities, strong_relevant):
+    # p1 = p(Xi=xi,S'i=s'i)>0 para all xi
+    # p2 = p(Y=y | Xi=xi, S'i=s'i)
+    # p3 = p(Y=y | S'i=s'i)
+    Y = data.pop("Y")
+    weak_relevant = []
+    for column in columns:
+        if column not in strong_relevant:
+            Xi = data.pop(column)
+            change_column = False
+            for x, y in x_y_possibilities:
+                if change_column is False:
+                    for index, si in data.iterrows():
+                        if change_column is False:
+                            subsets_si = calcultate_subsets_si(si)
+                            for si_ in subsets_si:
+                                weak = is_weak(data,Xi,Y,y,x,si_,index)
+                                if weak:
+                                    pt(column + " is Weak")
+                                    weak_relevant.append(column)
+                                    change_column = True
+                                    break
+                else:
+                    break
+    return weak_relevant
+    
+
+
+def find_relevants_information_pandas(dataset):
+    import copy
+    #pt("dataset", dataset)
     # Dataset, column, y, x
+    dataframe = pd.DataFrame(data=dataset)
+    #pt("dataframe",dataframe)
+    columns = ['X1', 'X2', 'X3', 'X4', 'X5']
+    x_y_possibilities = [[0, 0], [0, 1], [1, 0], [1, 1]]
+    irrelevant = []
+    data = copy.deepcopy(dataframe) # Create copy
+    strong_relevant = calculate_strong_relevant(data=data,columns=columns,x_y_possibilities=x_y_possibilities)
+    weak_relevant = calculate_weak_relevant(data=dataframe,columns=columns,x_y_possibilities=x_y_possibilities, strong_relevant=strong_relevant)
+    for e in columns:
+        if e not in strong_relevant+weak_relevant:
+            irrelevant.append(e)
+    pt("strong_relevant", strong_relevant)
+    pt("weak_relevant", weak_relevant)
+    pt("irrelevant", irrelevant)
 
+# Como se nos pide 100 instancias (con 0 y 1), creamos las 84 restantes con los siguientes métodos:
+X1 = create_x_instances_to_list(100,X1)
+X2 = create_x_instances_to_list(100,X2)
+X3 = create_x_instances_to_list(100,X3)
+X4 = create_x_instances_to_list(100,X4)
+X5 = create_x_instances_to_list(100,X5)
+# Y = X1 XOR X2 XOR X3 (Problema XOR con 3 dimensiones)
+# Se cumple la propiedad conmutativa.
+Y = change_bool_to_int(list(np.logical_xor(X1,np.logical_xor(X2,X3))))
+#pt("Y", Y)
+# Unimos listas en columnas para weka
+data = create_columns_per_list()
+dataset_dictionary = create_dict_from_data(X1,X2,X3,X4,X5,Y)
+find_relevants_information_pandas(dataset=dataset_dictionary)
 
-possibilities = {'x1':[0,1], 'x2':[0,1], 'x3':[0,1], 'x4':[0,1], 'x5':[0,1]}
-#possibilities = ['x1', 'x2', 'x3', 'x4', 'x5' ]
-find_relevants_information(data=data, Y=Y, possibilities=possibilities)
 # Creamos archivo arff
-#convert_lists_to_arff(create_columns_per_list())
+convert_lists_to_arff(create_columns_per_list())
