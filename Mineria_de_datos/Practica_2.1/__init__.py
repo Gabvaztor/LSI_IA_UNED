@@ -26,8 +26,8 @@ import pandas as pd
 X1 = []
 X2 = []
 X3 = []
-X4 = []
-X5 = []
+#X4 = []
+#X5 = []
 strong = 3  # If a Xi is strong
 weak = 2  # If a Xi is weak
 irrelevant = 1  # If a Xi is irrelevant
@@ -610,7 +610,6 @@ def calculate_strong_relevant(data, columns, x_y_possibilities):
                         break
             else:
                 break
-    pt("strong_relevant",strong_relevant)
     return strong_relevant
 
 
@@ -710,8 +709,10 @@ def find_relevants_information_pandas(dataset):
 X1 = create_x_instances_to_list(100,X1)
 X2 = create_x_instances_to_list(100,X2)
 X3 = create_x_instances_to_list(100,X3)
-X4 = create_x_instances_to_list(100,X4)
-X5 = create_x_instances_to_list(100,X5)
+X4 = change_bool_to_int(list(np.logical_xor(X2,X3)))
+X5 = [1] * 100
+pt("X4", X4)
+pt("X5", X5)
 # Y = X1 XOR X2 XOR X3 (Problema XOR con 3 dimensiones)
 # Se cumple la propiedad conmutativa.
 Y = change_bool_to_int(list(np.logical_xor(X1,np.logical_xor(X2,X3))))
