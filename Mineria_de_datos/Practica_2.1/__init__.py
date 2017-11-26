@@ -569,6 +569,7 @@ def is_strong(data, Xi,Y, y, x, Si,index):
             if list(Si) == list(si):
                 counts_si += 1
                 indexs.append(i)
+    indexs = list(set(indexs))
     for j in indexs:  # para todos los indices de todos los si que son iguales, contamos todos los xi que coinciden con el xi de entrada
         if x == Xi[j]:
             counts_xi +=1
@@ -623,10 +624,13 @@ def is_weak(data, Xi, Y, y, x, Si, index):
     counts_si = 1
     indexs = [index]
     for i, si in data.iterrows():  # Contamos las si que son iguales al Si de entrada sin tener en cuenta el de entrada
-        if index != i:  # Si no es el mismo si que estamos calculando
-            if list(Si) == list(si):
-                counts_si += 1
-                indexs.append(i)
+        subsets_si = calcultate_subsets_si(si)
+        for s_i_i in subsets_si:
+            if index != i:  # Si no es el mismo si que estamos calculando
+                if list(Si) == list(s_i_i):
+                    counts_si += 1
+                    indexs.append(i)
+    indexs = list(set(indexs))
     for j in indexs:  # para todos los indices de todos los si que son iguales, contamos todos los xi que coinciden con el xi de entrada
         if x == Xi[j]:
             counts_xi += 1
@@ -718,7 +722,7 @@ pt("X5", X5)
 Y = change_bool_to_int(list(np.logical_xor(X1,np.logical_xor(X2,X3))))
 #pt("Y", Y)
 # Unimos listas en columnas para weka
-data = create_columns_per_list()
+#data = create_columns_per_list()
 dataset_dictionary = create_dict_from_data(X1,X2,X3,X4,X5,Y)
 find_relevants_information_pandas(dataset=dataset_dictionary)
 
