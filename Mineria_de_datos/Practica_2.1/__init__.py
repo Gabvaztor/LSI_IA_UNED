@@ -705,6 +705,7 @@ def find_relevants_information_pandas(dataset):
     for e in columns:
         if e not in strong_relevant+weak_relevant:
             irrelevant.append(e)
+    pt("---------------------------------------")
     pt("strong_relevant", strong_relevant)
     pt("weak_relevant", weak_relevant)
     pt("irrelevant", irrelevant)
@@ -715,8 +716,6 @@ X2 = create_x_instances_to_list(100,X2)
 X3 = create_x_instances_to_list(100,X3)
 X4 = change_bool_to_int(list(np.logical_xor(X2,X3)))
 X5 = [1] * 100
-pt("X4", X4)
-pt("X5", X5)
 # Y = X1 XOR X2 XOR X3 (Problema XOR con 3 dimensiones)
 # Se cumple la propiedad conmutativa.
 Y = change_bool_to_int(list(np.logical_xor(X1,np.logical_xor(X2,X3))))
@@ -727,4 +726,4 @@ dataset_dictionary = create_dict_from_data(X1,X2,X3,X4,X5,Y)
 find_relevants_information_pandas(dataset=dataset_dictionary)
 
 # Creamos archivo arff
-#convert_lists_to_arff(create_columns_per_list())
+convert_lists_to_arff(create_columns_per_list())
