@@ -45,7 +45,8 @@ def create_x_instances_to_list(number_of_instances=84, list_to_add=None):
     return x
 
 def change_bool_to_int(list):
-    return [int(elem) for elem in list]
+    to_return = [int(elem) for elem in list]
+    return to_return
 
 def create_columns_per_list():
     """
@@ -559,6 +560,9 @@ def is_strong(data, Xi,Y, y, x, Si,index):
     strong = False
     p2 = None
     p3 = None
+    there_is_x_and_Xi = False
+    there_is_x_and_Xi_and_y_Y = False
+    there_is_y_Y = False
     counts_y_xi = 0
     counts_y = 0
     counts_xi = 0
@@ -572,17 +576,25 @@ def is_strong(data, Xi,Y, y, x, Si,index):
     indexs = list(set(indexs))
     for j in indexs:  # para todos los indices de todos los si que son iguales, contamos todos los xi que coinciden con el xi de entrada
         if x == Xi[j]:
+            there_is_x_and_Xi = True
             counts_xi +=1
-    p1 = counts_xi/ Y.size #p1 = p(Xi=xi, Si=si)  Si existe para si y xi
+    if there_is_x_and_Xi:
+        p1 = counts_xi/ Y.size #p1 = p(Xi=xi, Si=si)  Si existe para si y xi
+    else:
+        p1 = -1
     if p1 > 0:
         for e in indexs:
             if Y[e] == y and x == Xi[e]:
+                there_is_x_and_Xi_and_y_Y = True
                 counts_y_xi += 1
-        p2 = counts_y_xi / counts_xi  # Número de veces que y es condicional a xi y a si entre el número de veces que Si=si y Xi=xi
-        for r in indexs:
-            if Y[r] == y:
-                counts_y += 1
-        p3 = counts_y/ len(indexs)
+        if there_is_x_and_Xi_and_y_Y:
+            p2 = counts_y_xi / counts_xi  # Número de veces que y es condicional a xi y a si entre el número de veces que Si=si y Xi=xi
+            for r in indexs:
+                if Y[r] == y:
+                    there_is_y_Y = True
+                    counts_y += 1
+            if there_is_y_Y:
+                p3 = counts_y/ len(indexs)
     if p2 is not None and p3 is not None:
         if p2 != p3:
             strong = True
@@ -726,4 +738,4 @@ dataset_dictionary = create_dict_from_data(X1,X2,X3,X4,X5,Y)
 find_relevants_information_pandas(dataset=dataset_dictionary)
 
 # Creamos archivo arff
-convert_lists_to_arff(create_columns_per_list())
+#convert_lists_to_arff(create_columns_per_list())
