@@ -582,7 +582,7 @@ def is_strong(data, Xi,Y, y, x, Si,index):
         p1 = counts_xi/ Y.size #p1 = p(Xi=xi, Si=si)  Si existe para si y xi
     else:
         p1 = -1
-    if p1 > 0:
+    if p1 > 0: # Si se cumple p1
         for e in indexs:
             if Y[e] == y and x == Xi[e]:
                 there_is_x_and_Xi_and_y_Y = True
@@ -596,7 +596,7 @@ def is_strong(data, Xi,Y, y, x, Si,index):
             if there_is_y_Y:
                 p3 = counts_y/ len(indexs)
     if p2 is not None and p3 is not None:
-        if p2 != p3:
+        if p2 != p3: # Si p2 y p3 son diferentes, es fuerte
             strong = True
     return strong
 
