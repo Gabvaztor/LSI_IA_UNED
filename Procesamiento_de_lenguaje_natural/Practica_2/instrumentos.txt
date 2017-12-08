@@ -1,0 +1,21 @@
+Violín. Instrumento musical de cuerda, el más pequeño y agudo entre los de su clase, que se compone de una caja de resonancia en forma de 8, un mástil sin trastes y cuatro cuerdas que se hacen sonar con un arco.
+
+Guitarra.  Instrumento musical de cuerda compuesto por una caja de resonancia en forma de ocho, un mástil largo con trastes, y cuerdas, generalmente seis, que se hacen sonar con los dedos.
+
+Contrabajo. Instrumento musical de cuerda tocado con arco, el más grande y el de sonido más grave entre los de su familia.
+
+ Tambor. Instrumento musical de percusión, de madera o metal, de forma cilíndrica, hueco, cubierto por sus dos bases con piel estirada, que se toca con dos palillos.
+
+Trombón. Instrumento musical de metal, especie de trompeta grande, y cuyos sonidos responden, según su clase, a las voces de tenor, contralto o bajo respectivamente.
+
+Trompeta. Instrumento musical de viento, consistente en un tubo largo de metal que va ensanchándose desde la boquilla al pabellón y produce diversidad de sonidos según la fuerza con que la boca impele el aire.
+
+Violonchelo. Instrumento musical de cuerda tocado con arco, más grande que la viola y más pequeño que el contrabajo y con un registro intermedio entre ambos. El intérprete, que está sentado, lo coloca entre sus piernas para tocarlo.
+
+Acordeón. Instrumento musical de viento, formado por un fuelle cuyos dos extremos se cierran por sendas cajas, especie de estuches, en los que juegan cierto número de llaves o teclas que permiten seleccionar los sonidos.
+
+Flauta. Instrumento musical de viento, de madera u otro material, en forma de tubo con varios agujeros circulares que se tapan con los dedos o con llaves.
+
+Xilófono. Instrumento musical de percusión formado por láminas generalmente de madera, ordenadas horizontalmente según su tamaño y sonido, que se hacen sonar golpeándolas con dos baquetas.
+
+Piano. Instrumento musical de cuerdas generalmente metálicas dispuestas dentro de una caja de resonancia, que son golpeadas por macillos accionados desde un teclado.
