@@ -214,7 +214,6 @@ p=[
 
 rt=nltk.RegexpTagger(p)
 taggedText=rt.tag(words)
-pt(taggedText)
 
 for item in taggedText:
     if item[0] in dict:
