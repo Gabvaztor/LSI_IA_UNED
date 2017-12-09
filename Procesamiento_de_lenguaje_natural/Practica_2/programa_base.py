@@ -4,7 +4,7 @@
 import sys
 from collections import Counter
 import nltk
-nltk.download()
+#nltk.download()
 from nltk.tokenize import word_tokenize
 from nltk.probability import FreqDist
 from UtilsFunctions import *
@@ -19,7 +19,7 @@ file_read = f.read()
 freqdist = nltk.FreqDist()
 words = nltk.word_tokenize(file_read)
 fd = nltk.FreqDist(word.lower() for word in words)
-fdf= fd.most_common(50)
+fdf= fd.most_common()
 
 pt('Palabras del texto ordenadas por frecuencia')
 t=''
@@ -28,11 +28,33 @@ for w in fdf:
 pt(t)
 
 
-dict ={}
+
+def add_prepositions(dict):
+    dict['a'] = 'PREP'
+    dict['ante'] = 'PREP'
+    dict['bajo'] = 'PREP'
+    dict['con'] = 'PREP'
+    dict['contra'] = 'PREP'
+    dict['de'] = 'PREP'
+    dict['desde'] = 'PREP'
+    dict['hacia'] = 'PREP'
+    dict['hasta'] = 'PREP'
+    dict['para'] = 'PREP'
+    dict['por'] = 'PREP'
+    dict['según'] = 'PREP'
+    dict['segun'] = 'PREP'
+    dict['sin'] = 'PREP'
+    dict['sobre'] = 'PREP'
+    dict['tras'] = 'PREP'
+    dict['durante'] = 'PREP'
+    dict['mediante'] = 'PREP'
+    return dict
+
+dict = {}
 dict['.']='PUNT'
 dict['la']='DET'
-dict['a']='PREP'
-dict['para']='PREP'
+# Preposiciones
+dict = add_prepositions(dict)
 dict['que']='CONJ'
 dict['en']='PREP'
 dict['el']='DET'
