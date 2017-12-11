@@ -183,7 +183,26 @@ def add_conjuntions(dict):
     return dict
 
 def add_pronouns(dict):
-    pass
+    dict['yo'] = 'PRON'
+    dict['tú'] = 'PRON'
+    dict['él'] = 'PRON'
+    dict['nosotros'] = 'PRON'
+    dict['vosotros'] = 'PRON'
+    dict['ellos'] = 'PRON'
+    dict['éste'] = 'PRON'
+    dict['éstos'] = 'PRON'
+    dict['ése'] = 'PRON'
+    dict['aquél'] = 'PRON'
+    dict['ésa'] = 'PRON'
+    dict['aquélla'] = 'PRON'
+    dict['aquéllo'] = 'PRON'
+    dict['éstos'] = 'PRON'
+    dict['ésos'] = 'PRON'
+    dict['aquéllos'] = 'PRON'
+    dict['aquéllas'] = 'PRON'
+    dict['éstas'] = 'PRON'
+    dict['ésas'] = 'PRON'
+    dict['ello'] = 'PRON'
 
 def add_articles(dict):
     pass
