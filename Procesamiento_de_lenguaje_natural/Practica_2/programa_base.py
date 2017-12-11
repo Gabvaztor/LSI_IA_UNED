@@ -203,8 +203,10 @@ def add_pronouns(dict):
     dict['éstas'] = 'PRON'
     dict['ésas'] = 'PRON'
     dict['ello'] = 'PRON'
+    return dict
 
 def add_articles(dict):
+    # Preferencia de los determinantes
     pass
 
 dict = {}
