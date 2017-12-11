@@ -207,7 +207,7 @@ def add_pronouns(dict):
 
 def add_articles(dict):
     # Preferencia de los determinantes
-    pass
+    return dict
 
 dict = {}
 # Signos de puntuación
@@ -226,8 +226,10 @@ dict = add_pronouns(dict)
 dict = add_articles(dict)
 
 p=[
+    # Verbos
     (r'.*amos$','VIP1S'),
     (r'.*imos$','VIP1S'),
+    # Sustantivos
     (r'.*a$','NCFS'),
     (r'.*$','NCMS'),
     # Aquí hay se añaden los patrones necesarios
