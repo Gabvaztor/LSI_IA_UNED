@@ -714,8 +714,9 @@ def find_relevants_information_pandas(dataset):
     data = copy.deepcopy(dataframe) # Create copy
     strong_relevant = calculate_strong_relevant(data=data,columns=columns,x_y_possibilities=x_y_possibilities)
     weak_relevant = calculate_weak_relevant(data=dataframe,columns=columns,x_y_possibilities=x_y_possibilities, strong_relevant=strong_relevant)
+    strong_and_weak = strong_relevant+weak_relevant
     for e in columns:
-        if e not in strong_relevant+weak_relevant:
+        if e not in strong_and_weak:
             irrelevant.append(e)
     pt("---------------------------------------")
     pt("strong_relevant", strong_relevant)
