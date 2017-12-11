@@ -121,7 +121,7 @@ def add_interjections(dict):
     dict['¡Rayos!'] = 'INT'
     dict['¡Viva!'] = 'INT'
     dict['¡Vamos!'] = 'INT'
-    # Con varias palabras
+    # Con varias palabras / analizar
     dict['¡Válgame Dios!'] = 'INT'
     dict['¡Madre mía!'] = 'INT'
     dict['¡Dios santo!'] = 'INT'
@@ -182,7 +182,11 @@ def add_conjuntions(dict):
     dict['sino'] = 'CONJ'
     return dict
 
+def add_pronouns(dict):
+    pass
 
+def add_articles(dict):
+    pass
 
 dict = {}
 # Signos de puntuación
@@ -195,19 +199,24 @@ dict = add_determinants(dict)
 dict = add_prepositions(dict)
 # Conjunciones
 dict = add_conjuntions(dict)
-
-
-#Aquí hay se añaden las palabras del diccionario y sus etiquetas
-
-
-
+# Pronombres
+dict = add_pronouns(dict)
+# Artículos
+dict = add_articles(dict)
 
 p=[
     (r'.*amos$','VIP1S'),
     (r'.*imos$','VIP1S'),
     (r'.*a$','NCFS'),
     (r'.*$','NCMS'),
-    #Aquí hay se añaden los patrones necesarios
+    # Aquí hay se añaden los patrones necesarios
+    # Abreviaturas
+
+    # Advervbios
+
+    # Adjetivos
+
+    # Númerales
     ]
 
 
