@@ -8,13 +8,16 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.probability import FreqDist
 from UtilsFunctions import *
-
+import os
 
 #reload(sys)
 #sys.setdefaultencoding('utf8')
 
 #Lectura del fichero de texto
-f = open('D:\\Master\\PLN\\Practica3\\instrumentos.txt',encoding="utf-8")
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+#f = open('D:\\Master\\PLN\\Practica3\\instrumentos.txt',encoding="utf-8")
+f = open(os.path.join(__location__, 'instrumentos.txt'),encoding="utf-8")
 file_read = f.read()
 freqdist = nltk.FreqDist()
 words = nltk.word_tokenize(file_read)
@@ -226,20 +229,22 @@ dict = add_pronouns(dict)
 dict = add_articles(dict)
 
 p=[
-    # Verbos
-    (r'.*amos$','VIP1S'),
-    (r'.*imos$','VIP1S'),
-    # Sustantivos
-    (r'.*a$','NCFS'),
-    (r'.*$','NCMS'),
+
     # Aquí hay se añaden los patrones necesarios
     # Abreviaturas
-
+    #(r'.*xxxxx$', 'ABRV'),
     # Advervbios
 
     # Adjetivos
 
-    # Númerales
+    # Numerales
+    (r'[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?','NUM'),
+    # Verbos
+    (r'.*amos$', 'VIP1S'),
+    (r'.*imos$', 'VIP1S'),
+    # Sustantivos
+    (r'.*a$', 'NCFS'),
+    (r'.*$', 'NCMS')
     ]
 
 
