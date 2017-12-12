@@ -156,6 +156,10 @@ def add_determinants(dict):
     dict['aquellas'] = 'DET'
     dict['mi'] = 'DET'
     dict['tu'] = 'DET'
+    dict['su'] = 'DET'
+    dict['sus'] = 'DET'
+    dict['tus'] = 'DET'
+    dict['mis'] = 'DET'
     dict['nuestra'] = 'DET'
     dict['vuestra'] = 'DET'
     dict['nuestro'] = 'DET'
@@ -206,11 +210,90 @@ def add_pronouns(dict):
     dict['éstas'] = 'PRON'
     dict['ésas'] = 'PRON'
     dict['ello'] = 'PRON'
+    dict['se'] = 'PRON'
     return dict
 
 def add_articles(dict):
     # Preferencia de los determinantes
     return dict
+def add_numbers(dict):
+    dict['cero'] = 'NUM'
+    dict['uno'] = 'NUM'
+    dict['dos'] = 'NUM'
+    dict['tres'] = 'NUM'
+    dict['cuatro'] = 'NUM'
+    dict['cinco'] = 'NUM'
+    dict['seis'] = 'NUM'
+    dict['siete'] = 'NUM'
+    dict['ocho'] = 'NUM'
+    dict['nueve'] = 'NUM'
+    dict['diez'] = 'NUM'
+    dict['once'] = 'NUM'
+    dict['doce'] = 'NUM'
+    dict['trece'] = 'NUM'
+    dict['catorce'] = 'NUM'
+    dict['quice'] = 'NUM'
+    dict['once'] = 'NUM'
+    return dict
+def add_adverbs(dict):
+    dict['ahí'] = 'ADV'
+    dict['allí'] = 'ADV'
+    dict['aquí'] = 'ADV'
+    dict['acá'] = 'ADV'
+    dict['delante'] = 'ADV'
+    dict['detrás'] = 'ADV'
+    dict['arriba'] = 'ADV'
+    dict['abajo'] = 'ADV'
+    dict['cerca'] = 'ADV'
+    dict['lejos'] = 'ADV'
+    dict['encima'] = 'ADV'
+    dict['fuera'] = 'ADV'
+    dict['dentro'] = 'ADV'
+    dict['ya'] = 'ADV'
+    dict['aún'] = 'ADV'
+    dict['hoy'] = 'ADV'
+    dict['tarde'] = 'ADV'
+    dict['pronto'] = 'ADV'
+    dict['todavía'] = 'ADV'
+    dict['ayer'] = 'ADV'
+    dict['recién'] = 'ADV'
+    dict['nunca'] = 'ADV'
+    dict['siempre'] = 'ADV'
+    dict['jamás'] = 'ADV'
+    dict['ahora'] = 'ADV'
+    dict['mal'] = 'ADV'
+    dict['bien'] = 'ADV'
+    dict['regular'] = 'ADV'
+    dict['despacio'] = 'ADV'
+    dict['así'] = 'ADV'
+    dict['mejor'] = 'ADV'
+    dict['peor'] = 'ADV'
+    dict['claro'] = 'ADV'
+    dict['similar'] = 'ADV'
+    dict['muy'] = 'ADV'
+    dict['más'] = 'ADV'
+    dict['poco'] = 'ADV'
+    dict['bastante'] = 'ADV'
+    dict['demasiado'] = 'ADV'
+    dict['menos'] = 'ADV'
+    dict['mucho'] = 'ADV'
+    dict['algo'] = 'ADV'
+    dict['casi'] = 'ADV'
+    dict['acaso'] = 'ADV'
+    dict['quizás'] = 'ADV'
+    dict['tampoco'] = 'ADV'
+    dict['dónde'] = 'ADV'
+    dict['cuándo'] = 'ADV'
+    dict['qué'] = 'ADV'
+    dict['cuán'] = 'ADV'
+    dict['cuánto'] = 'ADV'
+    dict['cuánta'] = 'ADV'
+    return dict
+def add_others(dict):
+    dict['al'] = 'PREP y DET'
+    dict['del'] = 'PREP y DET'
+    return dict
+
 
 dict = {}
 # Signos de puntuación
@@ -227,22 +310,55 @@ dict = add_conjuntions(dict)
 dict = add_pronouns(dict)
 # Artículos
 dict = add_articles(dict)
+# Numeral
+dict = add_numbers(dict)
+# Advervios
+dict = add_adverbs(dict)
+# Otros
+dict = add_others(dict)
 
 p=[
-
     # Aquí hay se añaden los patrones necesarios
     # Abreviaturas
-    #(r'.*xxxxx$', 'ABRV'),
-    # Advervbios
-
+    (r'.*(?:(?<=\.|\s)[A-Z]\.)+', 'ABRV'),
+    # Advervios
+    (r'.*mente$', 'ADV'),
     # Adjetivos
-
+    (r'.*al$', 'ADJ'),
+    (r'.*oso$', 'ADJ'),
+    (r'.*osa$', 'ADJ'),
+    (r'.*ivo$', 'ADJ'),
+    (r'.*usco$', 'ADJ'),
     # Numerales
     (r'[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?','NUM'),
+    (r'.*uno$', 'NUM'),
+    (r'.*doa$', 'NUM'),
+    (r'.*tres$', 'NUM'),
+    (r'.*cuatro$', 'NUM'),
+    (r'.*cinco$', 'NUM'),
+    (r'.*seis$', 'NUM'),
+    (r'.*siete$', 'NUM'),
+    (r'.*ocho$', 'NUM'),
+    (r'.*nueve$', 'NUM'),
+    (r'.*mil$', 'NUM'),
+    (r'.*miles$', 'NUM'),
+    (r'.*millón$', 'NUM'),
+    (r'.*millones$', 'NUM'),
+    (r'.*entos$', 'NUM'),
+    (r'.*enta$', 'NUM'),
+    (r'.*einte$', 'NUM'),
+    (r'.*einta$', 'NUM'),
     # Verbos
     (r'.*amos$', 'VIP1S'),
     (r'.*imos$', 'VIP1S'),
+
+    (r'.*ríamos$', 'VMCP1P0'), # condicional presente plural
+    (r'.*ría$', 'VMCP1S0'), # condicional presente singular
+    (r'.*ar$', 'VMN0000'),
+    (r'.*er$', 'VMN0000'),
+    (r'.*ir$', 'VMN0000'),
     # Sustantivos
+    (r'.*las$', 'NCFS'),
     (r'.*a$', 'NCFS'),
     (r'.*$', 'NCMS')
     ]
