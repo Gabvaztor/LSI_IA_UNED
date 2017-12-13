@@ -168,6 +168,8 @@ def add_determinants(dict):
     dict['nuestras'] = 'DET'
     dict['vuestros'] = 'DET'
     dict['vuestras'] = 'DET'
+    dict['cuyo'] = 'DET'
+    dict['cuyos'] = 'DET'
     #dict[''] = 'DET'
     return dict
 def add_conjuntions(dict):
@@ -288,10 +290,79 @@ def add_adverbs(dict):
     dict['cuán'] = 'ADV'
     dict['cuánto'] = 'ADV'
     dict['cuánta'] = 'ADV'
+    dict['cierto'] = 'ADV'
+    dict['cierta'] = 'ADV'
+    dict['ciertos'] = 'ADV'
+    dict['ciertas'] = 'ADV'
+    dict['varios'] = 'ADV'
+    dict['ordenadas'] = 'ADV'
+    dict['dispuestas'] = 'ADV'
     return dict
+
+def add_adjectives(dict):
+    dict['pequeño'] = 'ADJ'
+    dict['agudo'] = 'ADJ'
+    dict['accionados'] = 'ADJ'
+    dict['golpeadas'] = 'ADJ'
+    dict['cuerda'] = 'ADJ'
+    dict['largo'] = 'ADJ'
+    dict['grande'] = 'ADJ'
+    dict['grave'] = 'ADJ'
+    dict['cilíndrica'] = 'ADJ'
+    dict['hueco'] = 'ADJ'
+    dict['hueca'] = 'ADJ'
+    dict['estirada'] = 'ADJ'
+    dict['grave'] = 'ADJ'
+    dict['intermedio'] = 'ADJ'
+    dict['circulares'] = 'ADJ'
+    dict['metálicas'] = 'ADJ'
+    return dict
+# Verbos
+def add_verbs(dict):
+    dict['compone'] = 'VMIP3S0'
+    dict['hacen'] = 'VMIP3S0'
+    dict['compuesto'] = 'VMPS000'
+    dict['tocado'] = 'VMPS000'
+    dict['cubierto'] = 'VMPS000'
+    dict['tocado'] = 'VMIP3S0'
+    dict['sentado'] = 'VMIP3S0'
+    dict['responden'] = 'VMIP3P0'
+    dict['consistente'] = 'VMIP3P0'
+    dict['va'] = 'VMIP3S0'
+    dict['produce'] = 'VMIP3S0'
+    dict['impele'] = 'VMIP3S0'
+    dict['está'] = 'VMIP3S0'
+    dict['coloca'] = 'VMIP3S0'
+    dict['formado'] = 'VMIP3S0'
+    dict['cierran'] = 'VMIP3P0'
+    dict['juegan'] = 'VMIP3P0'
+    dict['permiten'] = 'VMIP3P0'
+    dict['tapan'] = 'VMIP3P0'
+    return dict
+# Sustantivos
+def add_nouns(dict):
+    dict['trastes'] = 'NCMP'
+    dict['dedos'] = 'NCMP'
+    dict['metal'] = 'NCMS'
+    dict['bases'] = 'NCNP'
+    dict['piel'] = 'NCFS'
+    dict['percusión'] = 'NCFS'
+    dict['palillos'] = 'NCMP'
+    dict['especie'] = 'NCFS'
+    dict['voces'] = 'NCFP'
+    dict['extremos'] = 'NCMP'
+    dict['estuches'] = 'NCMP'
+    dict['llaves'] = 'NCFP'
+    dict['sonidos'] = 'NCMP'
+    dict['material'] = 'NCMS'
+    dict['agujeros'] = 'NCMP'
+    dict['teclado'] = 'NCMS'
+    return dict
+
 def add_others(dict):
     dict['al'] = 'PREP y DET'
     dict['del'] = 'PREP y DET'
+    dict['tocarlo'] = 'VMN0000 y DET'
     return dict
 
 
@@ -308,12 +379,18 @@ dict = add_prepositions(dict)
 dict = add_conjuntions(dict)
 # Pronombres
 dict = add_pronouns(dict)
+# Adjetivos
+dict = add_adjectives(dict)
 # Artículos
 dict = add_articles(dict)
 # Numeral
 dict = add_numbers(dict)
 # Advervios
 dict = add_adverbs(dict)
+# Verbos
+dict = add_verbs(dict)
+# Sustantivos
+dict = add_nouns(dict)
 # Otros
 dict = add_others(dict)
 
@@ -349,17 +426,30 @@ p=[
     (r'.*einte$', 'NUM'),
     (r'.*einta$', 'NUM'),
     # Verbos
-    (r'.*amos$', 'VIP1S'),
-    (r'.*imos$', 'VIP1S'),
-
     (r'.*ríamos$', 'VMCP1P0'), # condicional presente plural
-    (r'.*ría$', 'VMCP1S0'), # condicional presente singular
-    (r'.*ar$', 'VMN0000'),
-    (r'.*er$', 'VMN0000'),
-    (r'.*ir$', 'VMN0000'),
+    (r'.*amos$', 'VM0P1P'),
+    (r'.*emos$', 'VM0P10'),
+    (r'.*imos$', 'V0IP1P'),
+    (r'.*iste$', 'VMI02S0'), # pretérito perfecto simple segunda persona singular
+    (r'.*isteis$', 'VMI02P0'), # pretérito perfecto simple segunda persona plural
+    (r'.*ría$', 'VMCP0S0'), # condicional presente singular 1 y 3 persona
+    (r'.*rías$', 'VMCP2S0'), # condicional presente singular
+    (r'.*ados$', 'VMCP2S0'), #
+    (r'.*ado$', 'VMCP2S0'), #
+    (r'.*í$', 'VMCP2S0'), # pasado simple
+    (r'.*ó$', 'VMCP2S0'), # pasado simple
+    (r'.*rá$', 'VMIF3S0'), # futuro simple
+    (r'.*ré$', 'VMIF1S0'), # futuro simple primera persona
+    (r'.*ar$', 'VMN0000'), # infinitivo
+    (r'.*er$', 'VMN0000'), # infinitivo
+    (r'.*ir$', 'VMN0000'), # infinitivo
     # Sustantivos
-    (r'.*las$', 'NCFS'),
+    (r'.*las$', 'NCFP'),
+    (r'.*lase$', 'NCFS'),
+    (r'.*lases$', 'NCFP'),
+    (r'.*as$', 'NCFP'),
     (r'.*a$', 'NCFS'),
+    (r'.*os$', 'NCMP'),
     (r'.*$', 'NCMS')
     ]
 
@@ -370,9 +460,9 @@ taggedText=rt.tag(words)
 
 for item in taggedText:
     if item[0] in dict:
-        pt(item[0]+' '+dict[item[0]])
+        pt(item[0]+' ('+dict[item[0]]+')')
     else:
-        pt(item[0]+' '+item[1])
+        pt(item[0]+' ('+item[1]+')')
     
 
 

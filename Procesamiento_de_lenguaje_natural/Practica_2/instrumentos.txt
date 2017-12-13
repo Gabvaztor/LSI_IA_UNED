@@ -4,7 +4,7 @@ Guitarra.  Instrumento musical de cuerda compuesto por una caja de resonancia en
 
 Contrabajo. Instrumento musical de cuerda tocado con arco, el más grande y el de sonido más grave entre los de su familia.
 
- Tambor. Instrumento musical de percusión, de madera o metal, de forma cilíndrica, hueco, cubierto por sus dos bases con piel estirada, que se toca con dos palillos.
+Tambor. Instrumento musical de percusión, de madera o metal, de forma cilíndrica, hueco, cubierto por sus dos bases con piel estirada, que se toca con dos palillos.
 
 Trombón. Instrumento musical de metal, especie de trompeta grande, y cuyos sonidos responden, según su clase, a las voces de tenor, contralto o bajo respectivamente.
 
