@@ -12,12 +12,12 @@ import os
 
 #reload(sys)
 #sys.setdefaultencoding('utf8')
-
+actual_location = str(os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__))))
 #Lectura del fichero de texto
-__location__ = os.path.realpath(
-    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
 #f = open('D:\\Master\\PLN\\Practica3\\instrumentos.txt',encoding="utf-8")
-f = open(os.path.join(__location__, 'instrumentos.txt'),encoding="utf-8")
+f = open(os.path.join(actual_location, 'instrumentos.txt'),encoding="utf-8")
 file_read = f.read()
 freqdist = nltk.FreqDist()
 words = nltk.word_tokenize(file_read)
@@ -29,8 +29,6 @@ t=''
 for w in fdf:
     t+='('+w[0]+','+str(w[1])+') '
 pt(t)
-
-
 
 def add_prepositions(dict):
     dict['a'] = 'PREP'
@@ -170,6 +168,8 @@ def add_determinants(dict):
     dict['vuestras'] = 'DET'
     dict['cuyo'] = 'DET'
     dict['cuyos'] = 'DET'
+    dict['sendas'] = 'DET'
+    dict['otro'] = 'DET'
     #dict[''] = 'DET'
     return dict
 def add_conjuntions(dict):
@@ -213,11 +213,13 @@ def add_pronouns(dict):
     dict['ésas'] = 'PRON'
     dict['ello'] = 'PRON'
     dict['se'] = 'PRON'
+    dict['ambos'] = 'PRON'
     return dict
 
 def add_articles(dict):
     # Preferencia de los determinantes
     return dict
+
 def add_numbers(dict):
     dict['cero'] = 'NUM'
     dict['uno'] = 'NUM'
@@ -237,6 +239,7 @@ def add_numbers(dict):
     dict['quice'] = 'NUM'
     dict['once'] = 'NUM'
     return dict
+
 def add_adverbs(dict):
     dict['ahí'] = 'ADV'
     dict['allí'] = 'ADV'
@@ -316,7 +319,9 @@ def add_adjectives(dict):
     dict['intermedio'] = 'ADJ'
     dict['circulares'] = 'ADJ'
     dict['metálicas'] = 'ADJ'
+    dict['golpeadas'] = 'ADJ'
     return dict
+
 # Verbos
 def add_verbs(dict):
     dict['compone'] = 'VMIP3S0'
@@ -338,7 +343,10 @@ def add_verbs(dict):
     dict['juegan'] = 'VMIP3P0'
     dict['permiten'] = 'VMIP3P0'
     dict['tapan'] = 'VMIP3P0'
+    dict['consistente'] = 'VMP0000'
+    dict['golpeadas'] = 'VMP0000'
     return dict
+
 # Sustantivos
 def add_nouns(dict):
     dict['trastes'] = 'NCMP'
@@ -357,14 +365,16 @@ def add_nouns(dict):
     dict['material'] = 'NCMS'
     dict['agujeros'] = 'NCMP'
     dict['teclado'] = 'NCMS'
+    dict['diversidad'] = 'NCFS'
     return dict
 
 def add_others(dict):
     dict['al'] = 'PREP y DET'
     dict['del'] = 'PREP y DET'
     dict['tocarlo'] = 'VMN0000 y DET'
+    dict['ensanchándose'] = 'VMG0000 y PRON'
+    dict['golpeándolas'] = 'VMG0000 y PRON'
     return dict
-
 
 dict = {}
 # Signos de puntuación
@@ -443,6 +453,7 @@ p=[
     (r'.*ar$', 'VMN0000'), # infinitivo
     (r'.*er$', 'VMN0000'), # infinitivo
     (r'.*ir$', 'VMN0000'), # infinitivo
+    # (r'.*rl(a|e|o|as|os|es)$', 'VMN0000 + DET'),  infinitivo + determinante
     # Sustantivos
     (r'.*las$', 'NCFP'),
     (r'.*lase$', 'NCFS'),
@@ -453,8 +464,6 @@ p=[
     (r'.*$', 'NCMS')
     ]
 
-
-
 rt=nltk.RegexpTagger(p)
 taggedText=rt.tag(words)
 
@@ -463,7 +472,5 @@ for item in taggedText:
         pt(item[0]+' ('+dict[item[0]]+')')
     else:
         pt(item[0]+' ('+item[1]+')')
-    
-
 
 sys.exit()

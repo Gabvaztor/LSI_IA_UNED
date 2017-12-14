@@ -35,3 +35,7 @@ def create_directory_from_fullpath(fullpath):
     if not os.path.exists(directory):
         os.makedirs(directory)
     return directory
+
+def actual_location():
+    return str(os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__))))
