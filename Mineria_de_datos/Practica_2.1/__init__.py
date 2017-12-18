@@ -713,6 +713,7 @@ def find_relevants_information_pandas(dataset):
     irrelevant = []
     data = copy.deepcopy(dataframe) # Create copy
     strong_relevant = calculate_strong_relevant(data=data,columns=columns,x_y_possibilities=x_y_possibilities)
+    del data
     weak_relevant = calculate_weak_relevant(data=dataframe,columns=columns,x_y_possibilities=x_y_possibilities, strong_relevant=strong_relevant)
     strong_and_weak = strong_relevant+weak_relevant
     for e in columns:
