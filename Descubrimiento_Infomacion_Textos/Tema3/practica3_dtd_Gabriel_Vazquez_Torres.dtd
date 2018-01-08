@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT text ((body))>
+<!ELEMENT teiHeader (#PCDATA)>
+<!ATTLIST teiHeader
+	lang CDATA #FIXED "es"
+	type (T3 | T2) #REQUIRED
+>
+<!ELEMENT teiCorpus ((TEI.2+))>
+<!ELEMENT seg9 ((p+))>
+<!ELEMENT seg13 (#PCDATA)*>
+<!ELEMENT seg10 ((p))>
+<!ELEMENT s (#PCDATA | rs | num | date | dateline | docAuthor | category name | seg13)*>
+<!ELEMENT rs (#PCDATA)>
+<!ATTLIST rs
+	key (UES5 | UES4 | UES3 | UES2 | UES1 | TLES6 | TLES5 | TLES4 | TLES3 | TLES2 | TLES1 | PES6 | PES5 | PES4 | PES3 | PES2 | PES1 | PBES1 | OES9 | OES8 | OES7 | OES6 | OES5 | OES4 | OES3 | OES2 | OES15 | OES14 | OES13 | OES12 | OES11 | OES10 | OES1 | NES6 | NES5 | NES4 | NES3 | NES2 | NES1 | LES9 | LES8 | LES7 | LES6 | LES5 | LES4 | LES3 | LES2 | LES17 | LES16 | LES15 | LES14 | LES13 | LES12 | LES11 | LES10 | LES1) #REQUIRED
+	type (uncat | title | publication | place | organization | name | law) #REQUIRED
+>
+<!ELEMENT p ((docAuthor | s))>
+<!ELEMENT num (#PCDATA)>
+<!ATTLIST num
+	num (7 | 69 | 60394 | 6 | 58 | 5 | 387 | 3092 | 30 | 20 | 2 | 193 | 18394 | 109 | 10094 | 1 | 09894) #REQUIRED
+>
+<!ELEMENT name (#PCDATA | rs)*>
+<!ELEMENT list ((item+))>
+<!ELEMENT item ((p))>
+<!ATTLIST item
+	n (4 | 3 | 2 | 1) #REQUIRED
+>
+<!ELEMENT docAuthor (#PCDATA | rs | s)*>
+<!ELEMENT div3 ((p))>
+<!ELEMENT div2 (((p, seg9, seg10) | (list, seg9, seg10?)))>
+<!ELEMENT div1 ((p))>
+<!ELEMENT dateline (#PCDATA | rs | date)*>
+<!ELEMENT date (#PCDATA | rs)*>
+<!ATTLIST date
+	date CDATA #IMPLIED
+>
+<!ELEMENT classCode (#PCDATA)>
+<!ELEMENT category ((rs))>
+<!ELEMENT body ((div1, div2, div3))>
+<!ELEMENT TEI.2 ((teiHeader, text))>
