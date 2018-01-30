@@ -419,7 +419,7 @@ p=[
     # Numerales
     (r'[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?','NUM'),
     (r'.*uno$', 'NUM'),
-    (r'.*doa$', 'NUM'),
+    (r'.*dos$', 'NUM'),
     (r'.*tres$', 'NUM'),
     (r'.*cuatro$', 'NUM'),
     (r'.*cinco$', 'NUM'),
